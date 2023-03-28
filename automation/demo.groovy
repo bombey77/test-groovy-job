@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Clean GIT branches') {
             steps {
-                sh './clean-git-branches.sh'
+                sh "${WORKSPACE}/automation/clean-git-branches.sh"
             }
         }
     }
