@@ -5,11 +5,7 @@ pipeline {
     stages {
         stage('Clean GIT branches') {
             steps {
-                sh "echo pwd"
-                sh "mkdir src"
-                // dir("${WORKSPACE}"){
-                //     sh './clean-git-branches.sh'
-                // }
+                sh './clean-git-branches.sh'
             }
         }
     }

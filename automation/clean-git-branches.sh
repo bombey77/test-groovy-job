@@ -26,8 +26,8 @@ for repository in "${repository_names[@]}"; do
   done
 
   cd ..
-  rm -rf "$repository"
+  # rm -rf "$repository"
 done
 
 cd ..
-rm -rf "$src"
+# rm -rf "$src"
