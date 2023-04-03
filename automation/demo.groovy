@@ -4,7 +4,7 @@ pipeline {
         stage('Clean GIT branches') {
             steps {
                 script {
-                    def repository_names = ["twobit", "sweater"]
+                    def repository_names = ["twobit"]
                     def src = "src"
 
                     if (!fileExists(src)) {
@@ -18,7 +18,7 @@ pipeline {
                         for (def repository : repository_names) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
                             git credentialsId: 'bombey77 (ssh)',
-                                url: '${git_repository}',
+                                url: 'git@github.com:bombey77/twobit.git',
                                 branch: 'main'
                             sh "git clone ${git_repository}"
                             println "Cloned from ${git_repository}"
