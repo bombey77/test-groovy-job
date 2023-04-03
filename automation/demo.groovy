@@ -1,4 +1,5 @@
-println "Hello world!!!"
+@NonCPS
+import org.jenkinsci.plugins.workflow.steps.CoreStep
 
 pipeline {
     agent any
@@ -9,10 +10,10 @@ pipeline {
                 def src = "src"
 
                 if (!fileExists(src)) {
-                    mkdir src
+                    sh "mkdir ${src}"
                 } else {
                     deleteDir()
-                    mkdir src
+                    sh "mkdir ${src}"
                 }
 
                 dir(src) {
@@ -33,6 +34,9 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            println "Done!!!"
+        }
+    }
 }
-
-println "Done!!!"
