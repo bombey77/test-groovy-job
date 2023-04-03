@@ -8,10 +8,10 @@ pipeline {
                     def src = "src"
 
                     if (!fileExists(src)) {
-                        mkdir src
+                        sh "mkdir $src"
                     } else {
                         deleteDir()
-                        mkdir src
+                        sh "mkdir $src"
                     }
 
                     dir(src) {
