@@ -21,7 +21,7 @@ pipeline {
                             dir(repository) {
                                 for (def branch : sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split('\n')) {
                                     println "Br name - ${branch}"
-                                    if (sh(script: "git log -1 --since='1 day ago' -s ${branch}", returnStatus: true) = 0) {
+                                    if (sh(script: "git log -1 --since='1 day ago' -s ${branch}", returnStatus: true) == 0) {
                                         def remote_branch = branch.replaceAll("origin/", "")
                                         println "Branch name to remove - ${remote_branch}"
                                     }
