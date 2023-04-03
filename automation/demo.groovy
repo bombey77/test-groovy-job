@@ -17,6 +17,9 @@ pipeline {
                     dir(src) {
                         for (def repository : repository_names) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
+                            git credentialsId: 'bombey77 (ssh)',
+                                url: '${git_repository}',
+                                branch: 'main'
                             sh "git clone ${git_repository}"
                             println "Cloned from ${git_repository}"
                             dir(repository) {
