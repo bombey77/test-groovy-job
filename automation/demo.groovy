@@ -22,7 +22,7 @@ pipeline {
                                 }
                             }
                         }
-                        stage('Clean workspace') {
+                        stage('Clean workspace after ${repository}') {
                             cleanWs()
                         }
                     }
