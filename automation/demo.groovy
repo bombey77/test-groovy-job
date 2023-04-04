@@ -15,6 +15,8 @@ pipeline {
                     sh 'git clone git@github.com:bombey77/sweater.git'
                     sh 'pwd'
                     sh 'ls -la'
+                    sh 'cd sweater'
+                    sh 'ls -la'
                 }
 //                script {
 //                    def repository_names = ["twobit", "sweater"]
