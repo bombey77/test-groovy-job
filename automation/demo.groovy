@@ -19,9 +19,9 @@ pipeline {
 //                                }
 //                            }
                         }
-                        stage("Clean workspace after ${repository}") {
-                            cleanWs()
-                        }
+//                        stage("Clean workspace after ${repository}") {
+//                            cleanWs()
+//                        }
                     }
                 }
             }
