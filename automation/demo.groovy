@@ -22,14 +22,14 @@ pipeline {
                                 }
                             }
                         }
+                        stage('Clean workspace') {
+                            steps {
+                                cleanWs()
+                            }
+                        }
                     }
                 }
             }
         }
-        stage('Cleanup') {
-            steps {
-                deleteDir()
-            }
-    }
     }
 }
