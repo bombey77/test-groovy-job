@@ -4,11 +4,11 @@ pipeline {
         skipDefaultCheckout(true)
     }
     stages {
-        stage('Clone GIT repositories and clean branches') {
-            steps {
-                script {
-                    def repository_names = ["twobit", "sweater"]
-                    for (def repository : repository_names) {
+        def repository_names = ["twobit", "sweater"]
+        for (def repository : repository_names) {
+            stage("Clone Git repository for ${repository}") {
+                steps {
+                    script {
                         dir(repository) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
                             git credentialsId: '04fe517d-3cf7-4aa3-8b40-5aa169e7e973',
@@ -22,11 +22,11 @@ pipeline {
                                 }
                             }
                         }
-                        stage("Clean workspace after ${repository}") {
-                            cleanWs()
-                        }
                     }
                 }
+            }
+            stage("Clean workspace after ${repository}") {
+                cleanWs()
             }
         }
     }
