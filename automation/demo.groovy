@@ -15,7 +15,8 @@ pipeline {
                             dir(repository) {
                                 def git_repository = "git@github.com:bombey77/${repository}.git"
                                 git credentialsId: '04fe517d-3cf7-4aa3-8b40-5aa169e7e973',
-                                    url: git_repository
+                                    url: git_repository,
+                                    refspec: '+refs/heads/*:refs/remotes/origin/*'
                                 println "Cloned from ${git_repository}"
 
                                 for (def branch : sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split('\n')) {
