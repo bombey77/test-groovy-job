@@ -26,11 +26,6 @@ pipeline {
                                 }
                             }
                         }
-                        sh 'git clone git@github.com:bombey77/twobit.git'
-                        sh 'pwd'
-                        sh 'ls -la'
-                        sh 'cd twobit'
-                        sh 'ls -la'
                     }
                 }
 //                script {
