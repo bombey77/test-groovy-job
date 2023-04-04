@@ -9,7 +9,7 @@ pipeline {
                         stage("Clean workspace for ${repository}") {
                             cleanWs()
                         }
-                        stage("Clone repositories and clean old branches for ${repository}") {
+                        stage("Clone repository and clean old branches for ${repository}") {
                             dir(repository) {
                                 def git_repository = "git@github.com:bombey77/${repository}.git"
                                 git credentialsId: 'mac_ssh',
@@ -22,7 +22,7 @@ pipeline {
                                     if (lastCommitDate.isEmpty()) {
                                         def remoteBranch = branch.replaceAll("origin/", "")
                                         println "Branch name to remove - ${remoteBranch}"
-                                        sh(script: "git push origin -d ${remoteBranch}")
+                                        // sh(script: "git push origin -d ${remoteBranch}")
                                     }
                                 }
                             }
