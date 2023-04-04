@@ -21,6 +21,9 @@ pipeline {
                                     println "Branch name to remove - ${remote_branch}"
                                 }
                             }
+                            cleanup {
+                                deleteDir()
+                            }
                         }
                     }
                 }
