@@ -21,18 +21,15 @@ pipeline {
                                     println "Branch name to remove - ${remote_branch}"
                                 }
                             }
-                            cleanup {
-                                deleteDir()
-                            }
                         }
                     }
                 }
             }
         }
     }
-    post {
-        always {
-            println "Done!!!"
+    stage('Cleanup') {
+        steps {
+            deleteDir()
         }
     }
 }
