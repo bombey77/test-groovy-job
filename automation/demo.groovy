@@ -4,6 +4,9 @@ pipeline {
         skipDefaultCheckout(true)
     }
     stages {
+        stage("Clean workspace") {
+            cleanWs()
+        }
         stage('Clone GIT repositories and clean branches') {
             steps {
                 sshagent(['mac_ssh']) {
