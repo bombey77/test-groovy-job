@@ -22,7 +22,7 @@ pipeline {
                                 }
                             }
                         }
-                        stage('Clean workspace after ${repository}') {
+                        stage("Clean workspace after ${repository}") {
                             cleanWs()
                         }
                     }
@@ -30,9 +30,5 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            deleteDir()
-        }
-    }
+
 }
