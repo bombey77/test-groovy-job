@@ -22,17 +22,14 @@ pipeline {
                                 }
                             }
                         }
-                        stage("Clean workspace after ${repository}") {
-                            cleanWs()
-                        }
                     }
                 }
             }
         }
+        stage('Cleanup') {
+            steps {
+                deleteDir()
+            }
     }
-    post {
-        always {
-            deleteDir()
-        }
     }
 }
