@@ -7,7 +7,7 @@ pipeline {
         stage('Clone GIT repositories and clean branches') {
             steps {
                 script {
-                    def repository_names = ["twobit", "sweater"] 
+                    def repository_names = ["twobit", "sweater"]
                     for (def repository : repository_names) {
                         dir(repository) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
@@ -21,15 +21,18 @@ pipeline {
                                     println "Branch name to remove - ${remote_branch}"
                                 }
                             }
+                            cleanup {
+                                deleteDir()
+                            }
                         }
                     }
                 }
             }
         }
-        stage('Cleanup') {
-            steps {
-                deleteDir()
-            }
     }
+    post {
+        always {
+            println "Done!!!"
+        }
     }
 }
