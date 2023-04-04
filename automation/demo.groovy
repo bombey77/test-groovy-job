@@ -9,10 +9,10 @@ pipeline {
                 cleanWs()
             }
         }
-        stage('Clone GIT repositories and clean branches') {
+        stage("Clone GIT repositories and clean branches") {
             steps {
                 script {
-                    sshagent(['mac_ssh']) {
+                    sshagent(["mac_ssh"]) {
                         def repository_names = ["twobit"]
                         for (def repository : repository_names) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
@@ -25,6 +25,7 @@ pipeline {
                                     }
                                 }
                             }
+                            sh "ls -la"
                         }
                     }
                 }
