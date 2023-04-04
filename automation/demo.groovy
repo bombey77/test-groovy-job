@@ -1,12 +1,12 @@
 pipeline {
     agent any
     stages {
-        stage("Starting cleaning old branches") {
+        stage("Start cleaning old branches") {
             steps {
                 script {
                     def repository_names = ["twobit", "sweater"]
                     for (def repository : repository_names) {
-                        stage("Clean workspace before ${repository}") {
+                        stage("Clean workspace for ${repository}") {
                             cleanWs()
                         }
                         stage("Clone repositories and clean old branches for ${repository}") {
