@@ -1,3 +1,5 @@
+#!/bin/bash -x
+
 pipeline {
     agent any
     stages {
@@ -16,16 +18,15 @@ pipeline {
                                     url: git_repository
                                 println "Cloned from ${git_repository}"
 
-                                sh "set +e"
-                                def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true)
-//                                for (branch in branches) {
-//                                    def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
-//                                    if (lastCommitDate.isEmpty()) {
-//                                        def remoteBranch = branch.replaceAll("origin/", "")
-//                                        println "Branch name to remove - ${remoteBranch}"
-//                                        // sh(script: "git push origin -d ${remoteBranch}")
-//                                    }
-//                                }
+                                def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
+                                for (branch in branches) {
+                                    def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
+                                    if (lastCommitDate.isEmpty()) {
+                                        def remoteBranch = branch.replaceAll("origin/", "")
+                                        println "Branch name to remove - ${remoteBranch}"
+                                        // sh(script: "git push origin -d ${remoteBranch}")
+                                    }
+                                }
                             }
                         }
                     }
