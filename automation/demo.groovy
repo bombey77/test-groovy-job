@@ -16,6 +16,8 @@ pipeline {
                                     url: git_repository
                                 println "Cloned from ${git_repository}"
 
+                                def test = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true)
+                                println "result = ${test}"
                                 def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
                                 for (branch in branches) {
                                     def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
