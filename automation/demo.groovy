@@ -9,7 +9,8 @@ pipeline {
                         dir(repository) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
                             git credentialsId: 'mac_ssh',
-                                    url: git_repository
+                                    url: git_repository,
+                                    extensions: [[$class: 'CloneOption', noTags: true]]
                             println "Cloned from ${git_repository}"
 
                             for (def branch : sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split('\n')) {
