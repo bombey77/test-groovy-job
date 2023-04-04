@@ -20,14 +20,11 @@ pipeline {
                                 if (branchesStatus == 0) {
                                     def branches = branchesStatus.trim().split("\n")
                                     for (branch in branches) {
-                                        def lastCommitDateStatus = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
-                                        if (lastCommitDateStatus == 0) {
-                                            def lastCommitDate = lastCommitDateStatus.trim()
-                                            if (lastCommitDate.isEmpty()) {
-                                                def remoteBranch = branch.replaceAll("origin/", "")
-                                                println "Branch name to remove - ${remoteBranch}"
-                                                // sh(script: "git push origin -d ${remoteBranch}")
-                                            }
+                                        def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
+                                        if (lastCommitDate.isEmpty()) {
+                                            def remoteBranch = branch.replaceAll("origin/", "")
+                                            println "Branch name to remove - ${remoteBranch}"
+                                            // sh(script: "git push origin -d ${remoteBranch}")
                                         }
                                     }
                                 }
