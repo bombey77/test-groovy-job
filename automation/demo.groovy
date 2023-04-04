@@ -6,6 +6,9 @@ pipeline {
                 script {
                     def repository_names = ["twobit", "sweater"]
                     for (def repository : repository_names) {
+                        stage("Clean workspace before ${repository}") {
+                            cleanWs()
+                        }
                         dir(repository) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
                             git credentialsId: 'mac_ssh',
@@ -19,17 +22,9 @@ pipeline {
                                 }
                             }
                         }
-                        stage("Clean workspace after ${repository}") {
-                            cleanWs()
-                        }
                     }
                 }
             }
-        }
-    }
-    post {
-        always {
-            deleteDir()
         }
     }
 }
