@@ -17,15 +17,10 @@ pipeline {
                                 println "Cloned from ${git_repository}"
 
                                 for (def branch : sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split('\n')) {
-                                    def lastCommitDate = "git log -1 --since='1 month ago'".execute().text.trim()
-                                    if (lastCommitDate.isEmpty()) {
+                                    if (sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true) == 0) {
                                         def remote_branch = branch.replaceAll("origin/", "")
                                         println "Branch name to remove - ${remote_branch}"
                                     }
-//                                    if (sh(script: "git log -1 --since='1 month ago'", returnStatus: true) == 0) {
-//                                        def remote_branch = branch.replaceAll("origin/", "")
-//                                        println "Branch name to remove - ${remote_branch}"
-//                                    }
                                 }
                             }
                         }
