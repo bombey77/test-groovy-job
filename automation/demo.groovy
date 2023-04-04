@@ -32,7 +32,9 @@ pipeline {
     post {
         always {
             script {
+                sh "ls -la"
                 deleteDir()
+                sh "ls -la"
             }
         }
     }
