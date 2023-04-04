@@ -26,6 +26,10 @@ pipeline {
                                 }
                             }
                             sh "ls -la"
+                            stage("Clean workspace after ${repository}") {
+                                cleanWs()
+                            }
+                            sh "ls -la"
                         }
                     }
                 }
