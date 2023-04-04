@@ -5,7 +5,9 @@ pipeline {
     }
     stages {
         stage("Clean workspace") {
-            cleanWs()
+            steps {
+                cleanWs()
+            }
         }
         stage('Clone GIT repositories and clean branches') {
             steps {
