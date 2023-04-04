@@ -17,8 +17,8 @@ pipeline {
                                 println "Cloned from ${git_repository}"
 
                                 for (def branch : sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split('\n')) {
-                                    def remote_branch = branch.replaceAll("origin/", "")
-                                    if (sh(script: "git log -1 --since='1 month ago' -s ${remote_branch}", returnStatus: true) == 0) {
+                                    if (sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true) != 0) {
+                                        def remote_branch = branch.replaceAll("origin/", "")
                                         println "Branch name to remove - ${remote_branch}"
                                     }
                                 }
