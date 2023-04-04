@@ -16,22 +16,13 @@ pipeline {
                                     url: git_repository
                                 println "Cloned from ${git_repository}"
 
-//                                for (def branch : sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split('\n')) {
-//                                    def test = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
-//                                    println "result = ${test}"
-//                                    if (sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true) != 0) {
-//                                        def remote_branch = branch.replaceAll("origin/", "")
-//                                        println "Branch name to remove - ${remote_branch}"
-//                                    }
-//                                }
-
                                 def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
                                 for (branch in branches) {
-                                    def lastCommitDate = sh(script: "git log -1 --since='1 day ago' -s ${branch}", returnStdout: true).trim()
+                                    def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
                                     if (lastCommitDate.isEmpty()) {
                                         def remoteBranch = branch.replaceAll("origin/", "")
                                         println "Branch name to remove - ${remoteBranch}"
-                                        // sh(script: "git push origin -d ${remoteBranch}")
+                                        sh(script: "git push origin -d ${remoteBranch}")
                                     }
                                 }
                             }
