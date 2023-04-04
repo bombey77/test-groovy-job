@@ -23,13 +23,16 @@ pipeline {
                             }
                         }
                         stage('Clean workspace') {
-                            steps {
-                                cleanWs()
-                            }
+                            cleanWs()
                         }
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            deleteDir()
         }
     }
 }
