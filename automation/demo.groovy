@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     sshagent(["mac_ssh"]) {
-                        def repository_names = ["twobit"]
+                        def repository_names = ["twobit", "sweater"]
                         for (def repository : repository_names) {
                             def git_repository = "git@github.com:bombey77/${repository}.git"
                             sh "git clone ${git_repository}"
