@@ -20,7 +20,7 @@ pipeline {
                                 def latest_shas = sh(script: "git ls-remote --heads origin", returnStdout: true).trim().split('\n')
                                         .collectEntries { line ->
                                             def parts = line.split()
-                                            [parts[1].replaceAll('refs/heads/', ''): parts[0]]
+                                            [parts[1].replaceAll('refs/heads/', ''), parts[0]]
                                         }
                                 for (def branch : branches) {
                                     def remote_branch = branch.replaceAll("origin/", "")
