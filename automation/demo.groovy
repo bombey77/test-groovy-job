@@ -9,7 +9,7 @@ pipeline {
         stage('Clean GIT branches') {
             steps {
                 script {
-                    def repository_names = ["twobit", "sweater"]
+                    def repository_names = ["twobit"]
                     def src = "src"
                     sh "mkdir $src"
                     
