@@ -6,10 +6,10 @@ pipeline {
     stages {
         stage('Clone GIT repositories and clean branches') {
             steps {
-                script {
-                    sshagent(['04fe517d-3cf7-4aa3-8b40-5aa169e7e973']) {
-                        sh 'git clone git@github.com:bombey77/sweater.git'
-                    }
+                sshagent(['04fe517d-3cf7-4aa3-8b40-5aa169e7e973']) {
+                    sh 'git clone git@github.com:bombey77/sweater.git'
+                }
+//                script {
 //                    def repository_names = ["twobit", "sweater"]
 //                    for (def repository : repository_names) {
 //                        dir(repository) {
@@ -29,7 +29,7 @@ pipeline {
 //                            cleanWs()
 //                        }
 //                    }
-                }
+//                }
             }
         }
     }
