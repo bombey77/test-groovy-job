@@ -8,6 +8,8 @@ pipeline {
             steps {
                 sshagent(['mac_ssh']) {
                     sh 'git clone git@github.com:bombey77/sweater.git'
+                    sh 'pwd'
+                    sh 'ls -la'
                 }
 //                script {
 //                    def repository_names = ["twobit", "sweater"]
