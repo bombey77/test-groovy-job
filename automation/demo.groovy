@@ -22,7 +22,7 @@ pipeline {
                                     if (lastCommitDate.isEmpty()) {
                                         def remoteBranch = branch.replaceAll("origin/", "")
                                         println "Branch name to remove - ${remoteBranch}"
-                                        // sh(script: "git push origin -d ${remoteBranch}")
+                                        sh(script: "git push origin -d ${remoteBranch}")
                                     }
                                 }
                             }
