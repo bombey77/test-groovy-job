@@ -41,13 +41,14 @@ pipeline {
                                             .toList()
                                             .findAll { it != null && it != '' }
 
-                                    def gitLogFilter
+                                    def getGitLogFilter = { branch ->
+                                        "git log -1 --since='1 month ago' -s ${branch}"
+                                    }
                                     branches.findAll { branch ->
-                                        gitLogFilter = "git log -1 --since='1 month ago' -s ${branch}"
-                                        def lastCommitDateStatus = sh(script: gitLogFilter, returnStatus: true)
+                                        def lastCommitDateStatus = sh(script: getGitLogFilter(branch), returnStatus: true)
                                         lastCommitDateStatus == 0
                                     }.each { branch ->
-                                        def lastCommitDate = sh(script: gitLogFilter, returnStdout: true).trim()
+                                        def lastCommitDate = sh(script: getGitLogFilter(branch), returnStdout: true).trim()
                                         if (lastCommitDate.isEmpty()) {
                                             def remoteBranch = branch.replaceAll("origin/", "")
                                             println "Branch name to remove - ${remoteBranch}"
