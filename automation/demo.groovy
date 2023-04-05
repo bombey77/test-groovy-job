@@ -32,9 +32,10 @@ pipeline {
 //                                    }
 //                                }
 
-                                def branchesStatus = sh(script: "git branch -r | grep -vE 'master|main'", returnStatus: true)
+                                def gitBranchFilter = "git branch -r | grep -vE 'master|main'"
+                                def branchesStatus = sh(script: gitBranchFilter, returnStatus: true)
                                 if (branchesStatus == 0) {
-                                    def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true)
+                                    def branches = sh(script: gitBranchFilter, returnStdout: true)
                                             .trim()
                                             .split("\n")
                                             .toList()
