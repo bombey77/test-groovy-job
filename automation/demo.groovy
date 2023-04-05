@@ -32,18 +32,11 @@ pipeline {
 //                                    }
 //                                }
 
-                                def branchesStatus = sh(script: "git branch -r | grep -vE 'master|main'", returnStatus: true)
-                                if (branchesStatus == 0) {
-                                    def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
-                                    branches.findAll { branch ->
-                                        sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true) == 0 && sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim().isEmpty()
-                                    }.collect { branch ->
-                                        branch.replaceAll("origin/", "")
-                                    }.each { remoteBranch ->
-                                        println "Branch name to remove - ${remoteBranch}"
-                                        // sh(script: "git push origin -d ${remoteBranch}")
-                                    }
-                                }
+                                def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true)
+                                        .trim()
+                                        .split("\n")
+                                        .toList()
+                                        .filter { it != null && it != '' }
                             }
                         }
                     }
