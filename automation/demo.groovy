@@ -31,22 +31,25 @@ pipeline {
 //                                        }
 //                                    }
 //                                }
-                                def branchesStatus = sh(script: "git branch -r | grep -vE 'master|main'", returnStatus: true)
-
-                                if (branchesStatus == 0) {
-                                    def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
-                                    def branchesToRemove = branches.findAll { branch ->
-                                        def lastCommitDateStatus = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
-                                        lastCommitDateStatus == 0 && sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim().isEmpty()
-                                    }.collect { branch -> branch.replaceAll("origin/", "") }
-
-                                    if (!branchesToRemove.isEmpty()) {
-                                        branchesToRemove.each { branch ->
-                                            println "Branch name to remove - ${branch}"
-                                            // sh(script: "git push origin -d ${branch}")
+                                sh(script: "git branch -r | grep -vE 'master|main'", returnStatus: true)
+                                        .with {
+                                            it == 0 ? sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true)
+                                                    .trim()
+                                                    .split("\n")
+                                                    .findAll { branch ->
+                                                        sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true) == 0
+                                                    }
+                                                    .collect { branch ->
+                                                        def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
+                                                        lastCommitDate.isEmpty() ? branch.replaceAll("origin/", "") : null
+                                                    }
+                                                    .findAll()
+                                                    .tapEach { remoteBranch ->
+                                                        println "Branch name to remove - ${remoteBranch}"
+                                                        // sh(script: "git push origin -d ${remoteBranch}")
+                                                    }
+                                                    : null
                                         }
-                                    }
-                                }
                             }
                         }
                     }
