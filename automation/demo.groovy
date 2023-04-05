@@ -40,6 +40,18 @@ pipeline {
                                             .split("\n")
                                             .toList()
                                             .findAll { it != null && it != '' }
+
+                                    branches.findAll { branch ->
+                                        def lastCommitDateStatus = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
+                                        lastCommitDateStatus == 0
+                                    }.each { branch ->
+                                        def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
+                                        if (lastCommitDate.isEmpty()) {
+                                            def remoteBranch = branch.replaceAll("origin/", "")
+                                            println "Branch name to remove - ${remoteBranch}"
+                                            // sh(script: "git push origin -d ${remoteBranch}")
+                                        }
+                                    }
                                 }
                             }
                         }
