@@ -42,7 +42,8 @@ pipeline {
                                             .findAll { it != null && it != '' }
 
                                     branches.findAll { branch ->
-                                        def lastCommitDateStatus = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
+                                        def gitLogFilter = "git log -1 --since='1 month ago' -s ${branch}"
+                                        def lastCommitDateStatus = sh(script: gitLogFilter, returnStatus: true)
                                         lastCommitDateStatus == 0
                                     }.each { branch ->
                                         def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
