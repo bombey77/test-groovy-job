@@ -16,19 +16,31 @@ pipeline {
                                     url: git_repository
                                 println "Cloned from ${git_repository}"
 
-                                def branchesStatus = sh(script: "git branch -r | grep -vE 'master|main'", returnStatus: true)
-                                if (branchesStatus == 0) {
-                                    def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
-                                    for (branch in branches) {
-                                        def lastCommitDateStatus = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
-                                        if (lastCommitDateStatus == 0) {
-                                            def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
-                                            if (lastCommitDate.isEmpty()) {
-                                                def remoteBranch = branch.replaceAll("origin/", "")
-                                                println "Branch name to remove - ${remoteBranch}"
-                                                // sh(script: "git push origin -d ${remoteBranch}")
-                                            }
-                                        }
+//                                def branchesStatus = sh(script: "git branch -r | grep -vE 'master|main'", returnStatus: true)
+//                                if (branchesStatus == 0) {
+//                                    def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
+//                                    for (branch in branches) {
+//                                        def lastCommitDateStatus = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
+//                                        if (lastCommitDateStatus == 0) {
+//                                            def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
+//                                            if (lastCommitDate.isEmpty()) {
+//                                                def remoteBranch = branch.replaceAll("origin/", "")
+//                                                println "Branch name to remove - ${remoteBranch}"
+//                                                // sh(script: "git push origin -d ${remoteBranch}")
+//                                            }
+//                                        }
+//                                    }
+//                                }
+                                def br = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
+                                def logCmd = "git log -1 --since='1 month ago' -s"
+                                def branches =  br.findAll { branch ->
+                                    sh(script: "${logCmd} ${branch}", returnStatus: true) == 0 && sh(script: "${logCmd} ${branch}", returnStdout: true).trim().isEmpty()
+                                    }.collect { branch -> branch.replaceAll("origin/", "") }
+
+                                if (!branches.isEmpty()) {
+                                    branches.each { branch ->
+                                        println "Branch name to remove - ${branch}"
+                                        // sh(script: "git push origin -d ${branch}")
                                     }
                                 }
                             }
