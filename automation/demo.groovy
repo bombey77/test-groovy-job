@@ -32,19 +32,26 @@ pipeline {
 //                                    }
 //                                }
 
-                                def remoteBranches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n").toList()
+                                def remoteBranches = "git branch -r | grep -vE 'master|main'"
+                                def branchesStatus = sh(script: remoteBranches, returnStatus: true)
+                                if (branchesStatus == 0) {
+                                    def branches = sh(script: remoteBranches, returnStdout: true).trim().split("\n").findAll { it != null && it != '' }
 
-                                def getRecentBranchCommit = { branch ->
-                                    "git log -1 --since='1 month ago' -s ${branch}"
-                                }
+                                    def getRecentBranchCommit = { branch ->
+                                        "git log -1 --since='1 month ago' -s ${branch}"
+                                    }
 
-                                remoteBranches.findAll { branch ->
-                                    def lastCommitDate = sh(script: getRecentBranchCommit(branch), returnStdout: true).trim()
-                                    lastCommitDate.isEmpty()
-                                }.each { branch ->
-                                    def remoteBranch = branch.replaceAll("origin/", "")
-                                    println "Branch name to remove - ${remoteBranch}"
-                                    // sh(script: "git push origin -d ${remoteBranch}")
+                                    branches.findAll { branch ->
+                                        def lastCommitDateStatus = sh(script: getRecentBranchCommit(branch), returnStatus: true)
+                                        lastCommitDateStatus == 0
+                                    }.each { branch ->
+                                        def lastCommitDate = sh(script: getRecentBranchCommit(branch), returnStdout: true).trim()
+                                        if (lastCommitDate.isEmpty()) {
+                                            def remoteBranch = branch.replaceAll("origin/", "")
+                                            println "Branch name to remove - ${remoteBranch}"
+                                            // sh(script: "git push origin -d ${remoteBranch}")
+                                        }
+                                    }
                                 }
                             }
                         }
