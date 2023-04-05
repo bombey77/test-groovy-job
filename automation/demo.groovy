@@ -46,7 +46,7 @@ pipeline {
                                         def lastCommitDateStatus = sh(script: gitLogFilter, returnStatus: true)
                                         lastCommitDateStatus == 0
                                     }.each { branch ->
-                                        def lastCommitDate = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim()
+                                        def lastCommitDate = sh(script: gitLogFilter, returnStdout: true).trim()
                                         if (lastCommitDate.isEmpty()) {
                                             def remoteBranch = branch.replaceAll("origin/", "")
                                             println "Branch name to remove - ${remoteBranch}"
