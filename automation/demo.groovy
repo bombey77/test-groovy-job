@@ -32,11 +32,14 @@ pipeline {
 //                                    }
 //                                }
 
-                                def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true)
-                                        .trim()
-                                        .split("\n")
-                                        .toList()
-                                        .findAll { it != null && it != '' }
+                                def branchesStatus = sh(script: "git branch -r | grep -vE 'master|main'", returnStatus: true)
+                                if (branchesStatus == 0) {
+                                    def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true)
+                                            .trim()
+                                            .split("\n")
+                                            .toList()
+                                            .findAll { it != null && it != '' }
+                                }
                             }
                         }
                     }
