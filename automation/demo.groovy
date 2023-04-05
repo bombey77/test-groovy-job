@@ -36,7 +36,7 @@ pipeline {
                                         .trim()
                                         .split("\n")
                                         .toList()
-                                        .filter { it != null && it != '' }
+                                        .findAll { it != null && it != '' }
                             }
                         }
                     }
