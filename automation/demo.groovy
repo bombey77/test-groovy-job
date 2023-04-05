@@ -31,11 +31,13 @@ pipeline {
 //                                        }
 //                                    }
 //                                }
-                                def br = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
-                                def logCmd = "git log -1 --since='1 month ago' -s"
-                                def branches =  br.findAll { branch ->
-                                    sh(script: "${logCmd} ${branch}", returnStatus: true) == 0 && sh(script: "${logCmd} ${branch}", returnStdout: true).trim().isEmpty()
-                                    }.collect { branch -> branch.replaceAll("origin/", "") }
+                                def branches = sh(script: "git branch -r | grep -vE 'master|main'", returnStdout: true).trim().split("\n")
+                                        .findAll { branch ->
+                                            def lastCommitDateStatus = sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStatus: true)
+                                            lastCommitDateStatus == 0 && sh(script: "git log -1 --since='1 month ago' -s ${branch}", returnStdout: true).trim().isEmpty()
+                                        }.collect { branch ->
+                                    branch.replaceAll("origin/", "")
+                                }
 
                                 if (!branches.isEmpty()) {
                                     branches.each { branch ->
