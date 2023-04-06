@@ -11,6 +11,9 @@ pipeline {
                         }
                         stage("Clone repository and clean old branches for ${repository}") {
                             dir(repository) {
+                                def getGitMainBranch = { repository ->
+                                    repository.equalsIgnoreCase("test_main_issue") ? "main" : "master"
+                                }
                                 def git_repository = "git@github.com:bombey77/${repository}.git"
                                 git credentialsId: 'mac_ssh',
                                     url: git_repository,
