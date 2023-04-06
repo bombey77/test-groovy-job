@@ -14,7 +14,7 @@ pipeline {
                                 def git_repository = "git@github.com:bombey77/${repository}.git"
                                 git credentialsId: 'mac_ssh',
                                     url: git_repository,
-                                    branch: main
+                                    branch: 'main'
                                 println "Cloned from ${git_repository}"
 
 //                                def remoteBranches = "git branch -r | grep -vE 'master|main'"
