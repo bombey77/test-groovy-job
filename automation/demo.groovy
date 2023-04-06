@@ -11,13 +11,15 @@ pipeline {
                         }
                         stage("Clone repository and clean old branches for ${repository}") {
                             dir(repository) {
-                                def getGitMainBranch = { repo ->
+                                def git_repository = "git@github.com:bombey77/${repository}.git"
+
+                                def getGitDefaultBranch = { repo ->
                                     repo.equalsIgnoreCase("test_main_issue") ? "main" : "master"
                                 }
-                                def git_repository = "git@github.com:bombey77/${repository}.git"
+                                
                                 git credentialsId: 'mac_ssh',
                                     url: git_repository,
-                                    branch: getGitMainBranch(repository)
+                                    branch: getGitDefaultBranch(repository)
                                 println "Cloned from ${git_repository}"
 
                                 def remoteBranches = "git branch -r | grep -vE 'master|main'"
