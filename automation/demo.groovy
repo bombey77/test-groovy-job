@@ -4,7 +4,7 @@ pipeline {
         stage("Start cleaning old branches") {
             steps {
                 script {
-                    def repository_names = [/*"twobit", "sweater", */"test_main_issue"]
+                    def repository_names = ["twobit", "sweater", "test_main_issue"]
                     for (def repository : repository_names) {
                         stage("Clean workspace for ${repository}") {
                             cleanWs()
