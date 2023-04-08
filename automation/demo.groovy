@@ -38,7 +38,8 @@ pipeline {
                                         def lastCommitDate = sh(script: recentBranchLog(branch), returnStdout: true).trim()
                                         if (lastCommitDate.isEmpty()) {
                                             def remoteBranch = branch.replaceAll("origin/", "")
-                                            println "Branch name to remove - ${remoteBranch}"
+                                            def branchHash = sh(script: "git rev-parse ${remoteBranch}", returnStdout: true).trim()
+                                            println "Branch name to remove - ${remoteBranch} (${branchHash})"
                                            // sh(script: "git push origin -d ${remoteBranch}")
                                         }
                                     }
