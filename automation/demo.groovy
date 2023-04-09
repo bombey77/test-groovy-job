@@ -28,7 +28,7 @@ pipeline {
                                     def branches = sh(script: remoteBranches, returnStdout: true).trim().split("\n").findAll { it != null && it != '' }
 
                                     def recentBranchLog = { branch ->
-                                        "git log -1 --since='1 month ago' -s ${branch}"
+                                        "git log -1 --since='1 minute ago' -s ${branch}"
                                     }
 
                                     branches.findAll { branch ->
